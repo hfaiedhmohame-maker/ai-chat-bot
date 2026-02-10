@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Chatbot</title>
     <style>
+        /* Modern & Clean Design - No Logic Changed */
         * {
             margin: 0;
             padding: 0;
@@ -13,39 +14,43 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            /* Hintergrund jetzt neutral weiß/grau statt lila */
+            background: #ffffff;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            overflow: hidden;
         }
 
         .chat-container {
-            width: 90%;
-            max-width: 500px;
-            height: 600px;
+            width: 100%;
+            height: 100%;
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             display: flex;
             flex-direction: column;
             overflow: hidden;
         }
 
         .chat-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            /* Header jetzt in edlem Schwarz */
+            background: #000000;
             color: white;
-            padding: 20px;
+            padding: 16px;
             text-align: center;
-            font-size: 20px;
-            font-weight: bold;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
         .chat-messages {
             flex: 1;
             overflow-y: auto;
             padding: 20px;
-            background: #f5f5f5;
+            /* Hintergrund schlichtes Hellgrau */
+            background: #fcfcfc;
+            display: flex;
+            flex-direction: column;
         }
 
         .message {
@@ -59,72 +64,81 @@
         }
 
         .message-content {
-            max-width: 70%;
+            max-width: 80%;
             padding: 12px 16px;
             border-radius: 18px;
             word-wrap: break-word;
+            font-size: 14px;
+            line-height: 1.5;
         }
 
+        /* Bot Nachricht: Modernes Grau */
         .message.bot .message-content {
-            background: white;
-            color: #333;
+            background: #f0f0f2;
+            color: #1a1a1a;
             border-bottom-left-radius: 4px;
         }
 
+        /* User Nachricht: Klassisches Schwarz */
         .message.user .message-content {
-            background: #667eea;
+            background: #000000;
             color: white;
             border-bottom-right-radius: 4px;
         }
 
         .chat-input-container {
-            padding: 20px;
+            padding: 16px;
             background: white;
-            border-top: 1px solid #eee;
+            border-top: 1px solid #f0f0f0;
             display: flex;
             gap: 10px;
+            align-items: center;
         }
 
         #messageInput {
             flex: 1;
-            padding: 12px 16px;
-            border: 2px solid #eee;
+            padding: 10px 18px;
+            border: 1px solid #e0e0e0;
             border-radius: 25px;
             font-size: 14px;
             outline: none;
-            transition: border-color 0.3s;
+            background: #f8f8f8;
+            transition: border-color 0.2s;
         }
 
         #messageInput:focus {
-            border-color: #667eea;
+            border-color: #000000;
         }
 
         #sendButton {
-            padding: 12px 24px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 10px 20px;
+            background: #000000;
             color: white;
             border: none;
             border-radius: 25px;
             cursor: pointer;
-            font-weight: bold;
-            transition: transform 0.2s;
+            font-weight: 600;
+            font-size: 13px;
+            transition: opacity 0.2s;
         }
 
         #sendButton:hover {
-            transform: scale(1.05);
+            opacity: 0.8;
         }
 
         #sendButton:disabled {
-            opacity: 0.5;
+            opacity: 0.3;
             cursor: not-allowed;
         }
 
+        /* Typing Indicator Styling */
         .typing-indicator {
             display: none;
             padding: 12px 16px;
-            background: white;
+            background: #f0f0f2;
             border-radius: 18px;
-            width: 60px;
+            width: 50px;
+            border-bottom-left-radius: 4px;
         }
 
         .typing-indicator.show {
@@ -133,58 +147,34 @@
 
         .typing-dot {
             display: inline-block;
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             background: #999;
             border-radius: 50%;
-            margin: 0 2px;
+            margin: 0 1px;
             animation: typing 1.4s infinite;
         }
 
-        .typing-dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .typing-dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
         @keyframes typing {
-            0%, 60%, 100% {
-                transform: translateY(0);
-            }
-            30% {
-                transform: translateY(-10px);
-            }
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-6px); }
         }
 
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 3px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
+        /* Schlichte Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #e0e0e0; border-radius: 10px; }
     </style>
 </head>
 <body>
     <div class="chat-container">
         <div class="chat-header">
-            🤖 AI Kundenservice
+            Customer Service
         </div>
         <div class="chat-messages" id="chatMessages">
             <div class="message bot">
                 <div class="message-content">
-                    Hallo! Wie kann ich Ihnen heute helfen?
+                    Hello! How can I help you today?
                 </div>
             </div>
         </div>
@@ -192,21 +182,21 @@
             <input 
                 type="text" 
                 id="messageInput" 
-                placeholder="Schreiben Sie eine Nachricht..."
+                placeholder="Write a message..."
                 autocomplete="off"
             >
-            <button id="sendButton">Senden</button>
+            <button id="sendButton">Send</button>
         </div>
     </div>
 
     <script>
+        // Deine gesamte Logik bleibt 1:1 identisch
         const chatMessages = document.getElementById('chatMessages');
         const messageInput = document.getElementById('messageInput');
         const sendButton = document.getElementById('sendButton');
 
         let conversationHistory = [];
 
-        // Enter-Taste zum Senden
         messageInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
@@ -220,16 +210,13 @@
             const message = messageInput.value.trim();
             if (!message) return;
 
-            // Benutzer-Nachricht anzeigen
             addMessage(message, 'user');
             messageInput.value = '';
             sendButton.disabled = true;
 
-            // Tipp-Indikator anzeigen
             const typingIndicator = addTypingIndicator();
 
             try {
-                // Nachricht an API senden
                 const response = await fetch('/api/chat', {
                     method: 'POST',
                     headers: {
@@ -246,27 +233,21 @@
                 }
 
                 const data = await response.json();
-                
-                // Tipp-Indikator entfernen
                 typingIndicator.remove();
-
-                // Bot-Antwort anzeigen
                 addMessage(data.response, 'bot');
 
-                // Verlauf aktualisieren
                 conversationHistory.push(
                     { role: 'user', content: message },
                     { role: 'assistant', content: data.response }
                 );
 
-                // Verlauf auf maximal 10 Nachrichten begrenzen
                 if (conversationHistory.length > 10) {
                     conversationHistory = conversationHistory.slice(-10);
                 }
 
             } catch (error) {
                 typingIndicator.remove();
-                addMessage('Entschuldigung, es gab einen Fehler. Bitte versuchen Sie es erneut.', 'bot');
+                addMessage('Sorry, something went wrong. Please try again.', 'bot');
                 console.error('Fehler:', error);
             }
 
