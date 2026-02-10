@@ -1,0 +1,12 @@
+{
+  "name": "ai-chatbot",
+  "version": "1.0.0",
+  "description": "Kostenloser AI Chatbot mit Groq API",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "keywords": ["chatbot", "ai", "groq", "kundenservice"],
+  "author": "",
+  "license": "MIT"
+}
